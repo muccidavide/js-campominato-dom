@@ -30,6 +30,7 @@ let userDifficultyChoice = submitClick.addEventListener('click', function(){
    
 })
 
+// Creazione square table in base al livello di difficoltà
 
 function generateGrid(selector, tag_name, class_name, limit) {
 
@@ -49,6 +50,8 @@ function generateGrid(selector, tag_name, class_name, limit) {
     } 
 }
 
+// Interazione al click dell'utente
+
 function activateCell(class_name, cellNumber) {
 
     const cells = document.querySelectorAll(class_name)
@@ -66,27 +69,25 @@ function activateCell(class_name, cellNumber) {
         let cellNumber = index + 1;
         
         cell.addEventListener('click', function letsPlay() {
-            let endGameBooleanValue = false;
 
             // Utente seleziona cella senza bomba    
             if (bombsNumber.indexOf(cellNumber) === -1 && userNumbersPlayed.indexOf(cellNumber)  === -1 ) {
-
+                
+                 // si colora di blue la cella e aggiungo numero cella ad Array numeri utente (userNumberPlayed)
                 cell.style.backgroundColor = 'cornflowerblue';
                 cell.style.color = 'white';
                 userNumbersPlayed.push(cellNumber)
-                console.log(userNumbersPlayed);
 
-                // VITTORIA!!! : se numero giocate === numero vittoria 
+                // VITTORIA!!! : se numero giocate === numero vittoria allora l'utente ha vinto! esce avviso a schermo
                 if (userNumbersPlayed === victoryNumber) {
                     let loose = document.createElement('div')
                     loose.classList.add('loose')
                     document.querySelector('.container').append(loose)
                     document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Vinto! Mosse corette: ${userNumbersPlayed.length}</span>`)
-                    endGameBooleanValue = true;
                 }
                 
                 
-                // Utente Seleziona una bomba e perde
+                // Utente Seleziona una bomba e perde: esce avviso a schermo
             } else if(bombsNumber.includes(cellNumber) && userNumbersPlayed.indexOf(cellNumber)  === -1 ){
                 cell.style.backgroundColor = 'red';
                 userNumbersPlayed.push(cellNumber)
@@ -95,17 +96,9 @@ function activateCell(class_name, cellNumber) {
                 loose.classList.add('loose')
                 document.querySelector('.container').append(loose)
                 document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Perso! Mosse corette: ${userNumbersPlayed.length}</span>`)
-                endGameBooleanValue = true;
-
-                
+   
             } 
-
-
-       
-
         })
-
-        
 
     }
 }
