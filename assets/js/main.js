@@ -1,6 +1,5 @@
 // Funzione creazione griglia
 let cellsElement = document.querySelector('.cells');
-
 let submitClick = document.getElementById('play')
 
 let userDifficultyChoice = submitClick.addEventListener('click', function(){
@@ -22,10 +21,11 @@ let userDifficultyChoice = submitClick.addEventListener('click', function(){
         cellForRowNumber = 7;
     }
 
+    // Generare Griglia
+
     generateGrid(cellsElement, 'div', 'cell', cellNumber);
 
-    //console.log(bombsNumber);
-
+    // Selezione Celle
     activateCell('.cell', cellNumber)
    
 })
@@ -54,24 +54,57 @@ function activateCell(class_name, cellNumber) {
     const cells = document.querySelectorAll(class_name)
     //console.log(cells);
     let bombsNumber = bombsGenerator(cellNumber);
+    console.log(bombsNumber);
+    // valori per vittoria utente
+    let victoryNumber = cells.length - bombsNumber.length;
+    let userNumbersPlayed = [];
+    
   
     for (let index = 0; index < cells.length; index++) {
-      const cell = cells[index];
-      cell.addEventListener('click', function () {
-       
-        let cellNumber = index + 1
-        console.log(cellNumber);
-        console.log(bombsNumber);
-        // confronto numero o indice cella con numero random generato
-        if (bombsNumber.indexOf(cellNumber) === -1) {
-            cell.style.backgroundColor = 'cornflowerblue';
-            cell.style.color = 'white'
-        } else {
-            cell.style.backgroundColor = 'red';
-        }
-        
 
-      })
+        const cell = cells[index];
+        let cellNumber = index + 1;
+        let endGame;
+        
+  
+        cell.addEventListener('click', function letsPlay() {
+
+            
+
+            // Utente seleziona cella senza bomba    
+            if (bombsNumber.indexOf(cellNumber) === -1 && userNumbersPlayed.indexOf(cellNumber)  === -1 ) {
+
+                cell.style.backgroundColor = 'cornflowerblue';
+                cell.style.color = 'white';
+                userNumbersPlayed.push(cellNumber)
+                console.log(userNumbersPlayed);
+
+                // VITTORIA!!! : se numero giocate === numero vittoria 
+                if (userNumbersPlayed === victoryNumber) {
+                    let loose = document.createElement('div')
+                    loose.classList.add('loose')
+                    document.querySelector('.container').append(loose)
+                    document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Vinto! Mosse corette: ${userNumbersPlayed.length}</span>`)
+                    endGame = true;
+                }
+                
+                
+                // Utente Seleziona una bomba e perde
+            } else if(bombsNumber.includes(cellNumber) && userNumbersPlayed.indexOf(cellNumber)  === -1 ){
+                cell.style.backgroundColor = 'red';
+                userNumbersPlayed.push(cellNumber)
+
+                let loose = document.createElement('div')
+                loose.classList.add('loose')
+                document.querySelector('.container').append(loose)
+                document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Perso! Mosse corette: ${userNumbersPlayed.length}</span>`)
+                endGame = true;
+            } 
+
+            return endGame;
+        })
+        console.log(letsPlay().value);
+
     }
 }
 
@@ -93,10 +126,3 @@ function bombsGenerator(cellNumber) {
 
     return bombs;
 }
-
-/* 
-In seguito l'utente clicca su una cella:
-se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba
-la cella si colora di rosso e la partita termina,
-altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.
-*/
