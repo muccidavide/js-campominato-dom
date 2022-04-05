@@ -1,0 +1,61 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+header img{
+    max-width: 100%;
+    width: 100px;
+}
+
+header h3{
+    font-size: 2rem;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+}
+
+
+.box{
+    width: 100%;
+    background-color: aquamarine;
+    padding: 0 2rem;
+    
+}
+
+.container {
+    width: 600px;
+    margin: 0rem auto;
+    padding: 2rem 1rem;
+    
+  }
+
+  .cells {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .cell {
+    border: 1px solid black;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% / 10);
+
+  }
+
+  .selected{
+      background-color: cornflowerblue;
+      color: white;
+  }
