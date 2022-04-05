@@ -5,9 +5,10 @@
 }
 
 header{
+    height: 80px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 0 1rem;
 }
 
@@ -20,26 +21,36 @@ header h3{
     font-size: 2rem;
 }
 
+footer{
+    height: 80px;
+}
+
 .logo{
     display: flex;
     align-items: center;
+    width: 30%;
 }
 
+.difficulty-level{
+    width: 30%;
+}
 
 .box{
     width: 100%;
+    height: calc(100vh - 160px);
     background-color: aquamarine;
-    padding: 0 2rem;
+    padding: 3rem 2rem;
     
 }
 
 .container {
     width: 600px;
     margin: 0rem auto;
-    padding: 2rem 1rem;
+
   }
 
   .cells {
+
     display: flex;
     flex-wrap: wrap;
   }

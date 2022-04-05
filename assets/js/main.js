@@ -64,12 +64,9 @@ function activateCell(class_name, cellNumber) {
 
         const cell = cells[index];
         let cellNumber = index + 1;
-        let endGame;
         
-  
         cell.addEventListener('click', function letsPlay() {
-
-            
+            let endGameBooleanValue = false;
 
             // Utente seleziona cella senza bomba    
             if (bombsNumber.indexOf(cellNumber) === -1 && userNumbersPlayed.indexOf(cellNumber)  === -1 ) {
@@ -85,7 +82,7 @@ function activateCell(class_name, cellNumber) {
                     loose.classList.add('loose')
                     document.querySelector('.container').append(loose)
                     document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Vinto! Mosse corette: ${userNumbersPlayed.length}</span>`)
-                    endGame = true;
+                    endGameBooleanValue = true;
                 }
                 
                 
@@ -98,12 +95,17 @@ function activateCell(class_name, cellNumber) {
                 loose.classList.add('loose')
                 document.querySelector('.container').append(loose)
                 document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Perso! Mosse corette: ${userNumbersPlayed.length}</span>`)
-                endGame = true;
+                endGameBooleanValue = true;
+
+                
             } 
 
-            return endGame;
+
+       
+
         })
-        console.log(letsPlay().value);
+
+        
 
     }
 }
