@@ -24,6 +24,7 @@ let userDifficultyChoice = submitClick.addEventListener('click', function(){
 
     generateGrid(cellsElement, 'div', 'cell', cellNumber)
     activateCell('.cell')
+    bombsGenerator(cellNumber)
    
 })
 
@@ -47,6 +48,7 @@ function generateGrid(selector, tag_name, class_name, limit) {
 }
 
 function activateCell(class_name) {
+
     const cells = document.querySelectorAll(class_name)
     //console.log(cells);
   
@@ -55,6 +57,13 @@ function activateCell(class_name) {
       cell.addEventListener('click', function () {
         cell.style.backgroundColor = 'cornflowerblue';
         cell.style.color = 'white';
+
+        // confronto numero o indice cella con numero random generato
+        if (condition) {
+            
+        } else {
+            
+        }
 
       })
     }
@@ -65,16 +74,23 @@ Il computer deve generare 16 numeri casuali nello stesso range della difficoltà
 I numeri nella lista delle bombe non possono essere duplicati.
 */
 
-function bombsGenerator() {
+function bombsGenerator(cellNumber) {
     let bombs = [];
 
     while(bombs.length < 16){
-        let randomNumbers = Math.floor(Math.random() * 16) +1;
+        let randomNumbers = Math.floor(Math.random() * cellNumber) +1;
         
         if (bombs.indexOf(randomNumbers) === -1) {
             bombs.push(randomNumbers);
         }
     }
-    //console.log(bombs);
+    console.log(bombs);
 
 }
+
+/* 
+In seguito l'utente clicca su una cella:
+se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba
+la cella si colora di rosso e la partita termina,
+altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.
+*/
