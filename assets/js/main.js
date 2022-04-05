@@ -24,8 +24,7 @@ let userDifficultyChoice = submitClick.addEventListener('click', function(){
 
     generateGrid(cellsElement, 'div', 'cell', cellNumber)
     activateCell('.cell')
-    
-     
+   
 })
 
 
@@ -61,3 +60,21 @@ function activateCell(class_name) {
     }
 }
 
+/* 
+Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe :bomba:.
+I numeri nella lista delle bombe non possono essere duplicati.
+*/
+
+function bombsGenerator() {
+    let bombs = [];
+
+    while(bombs.length < 16){
+        let randomNumbers = Math.floor(Math.random() * 16) +1;
+        
+        if (bombs.indexOf(randomNumbers) === -1) {
+            bombs.push(randomNumbers);
+        }
+    }
+    //console.log(bombs);
+
+}
