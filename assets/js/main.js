@@ -22,9 +22,11 @@ let userDifficultyChoice = submitClick.addEventListener('click', function(){
         cellForRowNumber = 7;
     }
 
-    generateGrid(cellsElement, 'div', 'cell', cellNumber)
-    activateCell('.cell')
-    bombsGenerator(cellNumber)
+    generateGrid(cellsElement, 'div', 'cell', cellNumber);
+
+    //console.log(bombsNumber);
+
+    activateCell('.cell', cellNumber)
    
 })
 
@@ -47,23 +49,27 @@ function generateGrid(selector, tag_name, class_name, limit) {
     } 
 }
 
-function activateCell(class_name) {
+function activateCell(class_name, cellNumber) {
 
     const cells = document.querySelectorAll(class_name)
     //console.log(cells);
+    let bombsNumber = bombsGenerator(cellNumber);
   
     for (let index = 0; index < cells.length; index++) {
       const cell = cells[index];
       cell.addEventListener('click', function () {
-        cell.style.backgroundColor = 'cornflowerblue';
-        cell.style.color = 'white';
-
+       
+        let cellNumber = index + 1
+        console.log(cellNumber);
+        console.log(bombsNumber);
         // confronto numero o indice cella con numero random generato
-        if (condition) {
-            
+        if (bombsNumber.indexOf(cellNumber) === -1) {
+            cell.style.backgroundColor = 'cornflowerblue';
+            cell.style.color = 'white'
         } else {
-            
+            cell.style.backgroundColor = 'red';
         }
+        
 
       })
     }
@@ -84,8 +90,8 @@ function bombsGenerator(cellNumber) {
             bombs.push(randomNumbers);
         }
     }
-    console.log(bombs);
 
+    return bombs;
 }
 
 /* 
