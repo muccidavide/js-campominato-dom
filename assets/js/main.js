@@ -95,7 +95,7 @@ function activateCell(class_name, cellNumber) {
                 let loose = document.createElement('div')
                 loose.classList.add('loose')
                 document.querySelector('.container').append(loose)
-                document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Perso! Mosse corette: ${userNumbersPlayed.length}</span>`)
+                document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Perso! Mosse corette: ${userNumbersPlayed.length - 1}</span>`)
    
             } 
         })
