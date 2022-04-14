@@ -1,84 +1,103 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-header{
-    height: 80px;
+body{
+    background-color: aquamarine;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* #region Header */
+
+header {
+    background-color: white;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     padding: 0 1rem;
+    margin-bottom: 1rem;
 }
 
-header img{
+header img {
     max-width: 100%;
-    width: 100px;
+    min-width: 80px;
+    aspect-ratio: 1/1;
 }
 
-header h3{
+header h3 {
     font-size: 2rem;
 }
 
-#play{
+#play {
     background-color: aquamarine;
     margin-left: 0.2rem;
-    padding: 5px 30px;
+    padding: 0px 25px;
     border-radius: 10px;
     border: none;
 }
 
-footer{
-    height: 80px;
-}
-
-.logo{
+.logo {
     display: flex;
+    justify-content: center;
     align-items: center;
-    width: 30%;
 }
 
-.difficulty-level{
-    width: 30%;
+.difficulty-level {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+
+/* #endregion Header */
+
+/* #region Main Section */
 
 .box{
-    width: 100%;
-    height: calc(100vh - 160px);
-    background-color: aquamarine;
-    padding: 3rem 2rem;
     
+    width: 100%;
+    padding: 1rem;
+}
+.container {
+
+    margin: 0rem auto;
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.container {
-    width: 600px;
-    margin: 0rem auto;
-
-  }
-
-  .cells {
-
+.cells {
+    max-width: 800px;
     display: flex;
     flex-wrap: wrap;
-  }
+    justify-content: center;
+    align-items: center;
+}
 
-  .cell {
+.cells h2 {
+    padding-top: 10rem;
+}
+
+.cell {
+ 
     border: 1px solid black;
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: calc(100% / 10);
+    font-size:1.2rem;
 
-  }
+}
 
-  .selected{
-      background-color: cornflowerblue;
-      color: white;
-  }
+.selected {
+    background-color: cornflowerblue;
+    color: white;
+}
 
-  .loose{
+.loose {
     height: 200px;
     width: 400px;
     background-color: rgb(0 21 52);
@@ -94,4 +113,5 @@ footer{
     border-radius: 10px;
     opacity: 0.8;
 }
-  
+
+/* #endregion Main Section */

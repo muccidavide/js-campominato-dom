@@ -1,123 +1,174 @@
-// Funzione creazione griglia
-let cellsElement = document.querySelector('.cells');
-let submitClick = document.getElementById('play')
+/* Campo Minato */
 
-let userDifficultyChoice = submitClick.addEventListener('click', function(){
-    let difficultySelectorElement = document.getElementById('difficulty').value;
-    let cellNumber;
+// selection of DOM input node to choose difficulty 
 
-    //Reset Griglia e valori
-    cellsElement.innerHTML = '';
+const levelButtonElement = document.getElementById('play');
+
+// EventListener to click to select difficulty and set param to generate bombs and grid
+
+levelButtonElement.addEventListener('click', function(event) {
+
+    let difficultyData = levelChoice(event);
     
-    //Livello di difficolta
-    if (difficultySelectorElement === 'easy') {
-        cellNumber = 100;
-        cellForRowNumber = 10;
-    } else if (difficultySelectorElement === 'medium'){
-        cellNumber = 81;
-        cellForRowNumber = 9;
-    } else {
-        cellNumber = 49;
-        cellForRowNumber = 7;
-    }
+    generateGrid(difficultyData)
 
-    // Generare Griglia
+    letsPLay(difficultyData)
 
-    generateGrid(cellsElement, 'div', 'cell', cellNumber);
+    
+});
 
-    // Selezione Celle
-    activateCell('.cell', cellNumber)
-   
-})
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Creazione square table in base al livello di difficoltà
+function levelChoice(event) {
+        const userLevelChoiceElement = document.getElementById('difficulty');
+        let levelChosed = userLevelChoiceElement.value;
+        let cellNumber;
+        let colsNumber;
 
-function generateGrid(selector, tag_name, class_name, limit) {
+        // scelta livello
+    
+        switch (levelChosed) {
+            case "easy": 
+                cellNumber = 100;
+                colsNumber = 10;
+                    
+                break;
+            case "medium": 
+                cellNumber = 81;
+                colsNumber = 9;
+                
+                break;
+            case "hard": 
+                cellNumber = 49;
+                colsNumber = 7;
+                
+                break;
+        }
+        /// creazione Bombe
 
-    const gameAreaElement = document.querySelector('.cells')
-
-    // pulire area di gioco
-    gameAreaElement.innerHTML = ''
-  
-    for (let index = 1; index <= limit; index++) {
-        let cellItem = document.createElement(tag_name);
-        selector.append(cellItem);
-        cellItem.classList.add(class_name);
-        cellItem.style.width = `calc(100% / ${cellForRowNumber})`
-        cellItem.append(index)
-
-        gameAreaElement.append(cellItem)   
+        let bombsNumbers = bombsGenerator(cellNumber);
+        return {
+            bombs: bombsNumbers, 
+            cell:cellNumber, 
+            cols: colsNumber};
     } 
-}
-
-// Interazione al click dell'utente
-
-function activateCell(class_name, cellNumber) {
-
-    const cells = document.querySelectorAll(class_name)
-    //console.log(cells);
-    let bombsNumber = bombsGenerator(cellNumber);
-    console.log(bombsNumber);
-    // valori per vittoria utente
-    let victoryNumber = cells.length - bombsNumber.length;
-    let userNumbersPlayed = [];
-    
-  
-    for (let index = 0; index < cells.length; index++) {
-
-        const cell = cells[index];
-        let cellNumber = index + 1;
-        
-        cell.addEventListener('click', function letsPlay() {
-
-            // Utente seleziona cella senza bomba    
-            if (bombsNumber.indexOf(cellNumber) === -1 && userNumbersPlayed.indexOf(cellNumber)  === -1 ) {
-                
-                 // si colora di blue la cella e aggiungo numero cella ad Array numeri utente (userNumberPlayed)
-                cell.style.backgroundColor = 'cornflowerblue';
-                cell.style.color = 'white';
-                userNumbersPlayed.push(cellNumber)
-
-                // VITTORIA!!! : se numero giocate === numero vittoria allora l'utente ha vinto! esce avviso a schermo
-                if (userNumbersPlayed === victoryNumber) {
-                    let loose = document.createElement('div')
-                    loose.classList.add('loose')
-                    document.querySelector('.container').append(loose)
-                    document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Vinto! Mosse corette: ${userNumbersPlayed.length}</span>`)
-                }
-                
-                
-                // Utente Seleziona una bomba e perde: esce avviso a schermo
-            } else if(bombsNumber.includes(cellNumber) && userNumbersPlayed.indexOf(cellNumber)  === -1 ){
-                cell.style.backgroundColor = 'red';
-                userNumbersPlayed.push(cellNumber)
-
-                let loose = document.createElement('div')
-                loose.classList.add('loose')
-                document.querySelector('.container').append(loose)
-                document.querySelector('.container .loose').insertAdjacentHTML('beforeend', `<span>Hai Perso! Mosse corette: ${userNumbersPlayed.length - 1}</span>`)
-   
-            } 
-        })
-
-    }
-}
-
-/* 
-Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe :bomba:.
-I numeri nella lista delle bombe non possono essere duplicati.
-*/
+/**
+ * Returns an array of random numbers between 1 and cellNumber values
+ * @param {number} cellNumber The minimun number to generate the bombs from
+ * @returns {array} 
+ */
 
 function bombsGenerator(cellNumber) {
-    let bombs = [];
+    
+    let bombArray = [];
+        while (bombArray.length !== 16){
 
-    while(bombs.length < 16){
-        let randomNumbers = Math.floor(Math.random() * cellNumber) +1;
-        
-        if (bombs.indexOf(randomNumbers) === -1) {
-            bombs.push(randomNumbers);
+            let newBomb = Math.floor(Math.random() * cellNumber) + 1;
+            if (!bombArray.includes(newBomb)){
+                bombArray.push(newBomb)
+            }
+
         }
-    }
 
-    return bombs;
+    return bombArray
+   
+}
+
+/**
+ * 
+ * @param {object} difficultyData object with cell number, cols number and bombs number
+ */
+function generateGrid(difficultyData) {
+    let tableBoxElement = document.querySelector('.cells');
+    tableBoxElement.innerHTML = "";
+    
+    for (let i = 1; i <= difficultyData.cell; i++) {
+        let newCell =  document.createElement("div");
+        newCell.classList.add("cell");
+        tableBoxElement.append(newCell)
+        newCell.insertAdjacentHTML("beforeend", i )
+        newCell.style.width = `calc(100%/${difficultyData.cols})`;
+
+    }
+    
+}
+
+/**
+ * 
+ * @param {object} difficultyData object with cell number, cols number and bombs number
+ */
+
+function letsPLay(difficultyData) {
+    let cellElement = document.querySelectorAll(".cell");
+    let bombsNumber = difficultyData.bombs.sort((a, b) => a - b);;
+    let victoryNumbers = cellElement.length - bombsNumber.length;
+    let userNumbers = [];
+
+    cellElement.forEach((cell, index) => {
+        
+        cell.bombs = bombsNumber;
+        cell.victory = victoryNumbers;
+        cell.index = index
+        cell.cellElement = cellElement
+        cell.userNumbers = userNumbers
+    
+        
+        cell.addEventListener('click', winOrLoose)
+        
+    });
+    
+}
+
+// Main function to play game when selecting cell
+
+function winOrLoose(event) {
+    // keep data from target to pass it to Event Listener
+    let bombsNumber = event.target.bombs;
+    let victoryNumbers = event.target.victory
+    let index = event.target.index
+    let userNumbers = event.target.userNumbers
+    
+    // check if number is a bomb or not
+    if (!bombsNumber.includes(index + 1)){
+        this.style.backgroundColor = "blue";
+        this.style.color = "white";
+
+        if (!userNumbers.includes(index + 1)) {
+            userNumbers.push(index + 1)
+            // Victory condition
+            if (userNumbers.length == victoryNumbers) {
+                alert("Bravissimo Hai Vinto")
+                
+            } 
+        }
+        
+    } else {
+        // Game Over if cell is a bomb and stop the game
+        game_over(bombsNumber)
+        console.log(userNumbers);
+        alert(`Oops Hai perso tentativi corretti ${userNumbers.length}`)
+    }
+}
+
+/**
+ * 
+ * @param {number} bombsNumber // bombs number random generated
+ */
+
+function game_over(bombsNumber,) {
+  // show all bombs and remove event listener
+  const cells = document.querySelectorAll('.cell') 
+
+
+  /* End game with a loop and remove eventListener form all cells */
+  for (let i = 0; i < cells.length; i++) {
+    const cell = cells[i];
+    // remove event listner
+    cell.removeEventListener('click', winOrLoose) 
+    // show all bombsNumber
+    if (bombsNumber.includes(Number(cell.innerText))) {
+      cell.style.backgroundColor = 'red'
+      cell.innerText = '💣'
+    }
+  }
 }
